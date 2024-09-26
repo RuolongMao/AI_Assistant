@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Body, UploadFile, File
 from starlette.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from openai import OpenAI
@@ -186,6 +187,13 @@ Ensure the JSON response is properly formatted and parsable.
         raise HTTPException(status_code=500, detail=str(e))
 
 # Root endpoint
+
+app.mount("/static", StaticFiles(directory="client/build/static"), name="static")
+
 @app.get("/")
-async def read_root():
-    return FileResponse('static/index.html')
+async def serve_react_app():
+    return FileResponse('client/build/index.html')
+
+@app.get("/{path_name:path}")
+async def serve_react_catchall(path_name: str):
+    return FileResponse('client/build/index.html')
