@@ -38,6 +38,7 @@ class QueryResponse(BaseModel):
 @app.post("/upload_data")
 async def upload_data(file: UploadFile = File(...)):
     global schema
+    schema = None
     if file.filename.endswith('.csv'):
         content = await file.read()
         from io import BytesIO

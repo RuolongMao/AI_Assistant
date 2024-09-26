@@ -150,7 +150,7 @@ function App() {
               {message.sender === 'bot' && (
                 <img
                   className="avatar"
-                  src={`${process.env.PUBLIC_URL}/media/logo512.png`}
+                  src={`/static/logo512.png`}
                   alt="Bot Avatar"
                 />
               )}
@@ -169,7 +169,7 @@ function App() {
               {message.sender === 'user' && (
                 <img
                   className="avatar"
-                  src={`${process.env.PUBLIC_URL}/media/logo512.png`}
+                  src={`/static/logo512.png`}
                   alt="User Avatar"
                 />
               )}
