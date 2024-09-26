@@ -169,7 +169,7 @@ function App() {
               {message.sender === 'user' && (
                 <img
                   className="avatar"
-                  src={`/static/logo512.png`}
+                  src={`/static/user.jpg`}
                   alt="User Avatar"
                 />
               )}
