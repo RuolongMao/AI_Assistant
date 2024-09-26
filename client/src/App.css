@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #ebe6e1;
   font-family: Arial, sans-serif;
   padding-top: 50px;
@@ -26,7 +26,7 @@
   overflow-y: auto;
 }
 
-.chat-title { 
+.chat-title {
   text-align: left;
   width: 80%;
   font-size: 24px;
@@ -94,4 +94,37 @@
 
 img {
   width: 35px;
+}
+
+.file-upload {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.dropzone {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+}
+
+.table-preview {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.table-preview table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-preview th,
+.table-preview td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
 }
