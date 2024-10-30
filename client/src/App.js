@@ -146,7 +146,7 @@ function App() {
               )}
               <div className={`message ${message.sender}`}>
                 {message.loading ? (
-                  <span><ThreeDotsFade height="10" color="white"/>Loading...</span>
+                  <span><ThreeDotsFade height="10" color="white"/>Working on it... This may take a few seconds.</span>
                 ) : message.type === 'chart' ? (
                   <>
                     <Chart spec={message.spec} data={data} />
