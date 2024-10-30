@@ -24,7 +24,7 @@ function App() {
       setLoading(true);
 
       try {
-        const response = await fetch('http://localhost:8000/query', {
+        const response = await fetch('https://ai-assistant-0gcv.onrender.com/query', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ prompt: inputValue })
@@ -91,7 +91,7 @@ function App() {
         const formData = new FormData();
         formData.append('file', file);
 
-        fetch('http://localhost:8000/upload_data', {
+        fetch('https://ai-assistant-0gcv.onrender.com/upload_data', {
           method: 'POST',
           body: formData,
         })
