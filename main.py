@@ -46,15 +46,17 @@ def generate_spec(prompt: str) -> dict:
     """
     bot_prompt = f"""
     You are a data visualization assistant responsible for generating Vega-Lite specifications. Vega-Lite is a high-level grammar of interactive graphics that produces JSON specifications for data visualizations.You are responsible for converting user requests into valid Vega-Lite specifications in JSON format, based on the dataset provided.
-    Generate a Vega-Lite JSON specification for the user prompt:"{prompt}". Additionally, 
+    Generate a Vega-Lite v5.21.0 JSON specification for the user prompt:"{prompt}". Additionally, 
     provide a one or two-sentence summary of the chart that will help the user understand the visualization.
     Provide your response in the following JSON format:
     {{
         "vega_lite_spec": [Your Vega-Lite specification here],
         "summary": [Your chart summary here]
     }}
+    While generating the speculation, remember to strictly follow the format and make sure to double check for incorrections.
     Ensure the JSON response is properly formatted and parsable.
     """
+
     chat_completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -254,6 +256,8 @@ async def query_openai(request: QueryRequest):
     system_prompt = """
     You are a helpful AI assistant. Use the tools provided below when necessary to answer the user's queries.
     The dataset is already loaded into a Pandas DataFrame called 'df'. The dataset's columns are: {columns}. 
+    Remember: When dealing with all the columns except for MPG, make sure to capitalize the first letter of the column name!
+    
     The tools you can utilize are:
 
     1. generate_spec: Generate a Vega-Lite JSON specification for the following request:"{request.prompt}". Additionally, 
@@ -267,10 +271,11 @@ async def query_openai(request: QueryRequest):
     If the Vega-Lite specification is ill-formed and cannot be fixed, notify the user.
     Please format your response in the following JSON structure:
     {{
-        "message": "[Your response message here]",
         "response": [Your Vega-Lite specification here or None],
-        "summary": "[Your chart summary here if reponse is not None]"
+        "summary": "[Your chart summary or data queries here]"
     }}
+    If the response contains no vega-lite speculations, all the content will go into the "summary" field; if vega-lite speculations are present in the response,
+    the speculation will be placed in the "response" field, and "summary" field should include a value-based analysis of the chart generated.
     Keep your answer in JSON format and NOT containing other information!
     Remember to call the appropriate tool based on the user's question and print outputs using print(...).
     """
@@ -324,7 +329,7 @@ async def query_openai(request: QueryRequest):
             summary = response_data.get('summary')
             if vega_lite_spec:
                 return QueryResponse(response=vega_lite_spec, summary=summary)
-            return QueryResponse(message=response_data.get('message'))
+            return QueryResponse(message=response_data.get('summary'))
         except json.JSONDecodeError:
             return QueryResponse(message="Failed to parse the response.")
     else:
